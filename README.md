@@ -8,7 +8,7 @@ Repositório criado para criação do jogo Guerra de Dados referente a matéria 
 <ul>
     <li>João Omar Mendes Claudino</li>
     <li>Lucca Franca Possas</li>
-    <li>Palloma da Silva Machado Nunes</li>
+    <li>Thales Fonseca Soares</li>
     <li>Jonathan Silva de Sa</li>
     <li>Marcio de Amorim Machado Ferreira</li>
     <li>Marcio Aguiar Brito</li>
