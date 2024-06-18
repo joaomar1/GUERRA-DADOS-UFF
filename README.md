@@ -17,7 +17,7 @@ Repositório criado para criação do jogo Guerra de Dados referente a matéria 
 <br />
 
 <h3> INSTRUÇÕES PARA O GRUPO:</h3>
-<p>Requisitos: Javascript e html</p>
+<p>Requisitos: Javascript e HTML.</p>
 
 <h2>Branches de trabalho</h2>
 <p>Para realizar as alterações no código, utilizamos o padrão do Git Flow para criar branches.</p>
