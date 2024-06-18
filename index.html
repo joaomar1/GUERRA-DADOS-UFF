@@ -1,26 +1,102 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guerra Dados</title>
+    <title>Guerra de Dados</title>
     <style>
         body {
             margin: 0;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-image: url('image/background.jpeg'); /* Certifique-se de ter uma imagem de fundo chamada 'background.jpeg' */
+            background-size: cover;
+            background-position: center;
         }
-        canvas {
-            border: 1px solid #000;
+        #menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente para o menu */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        #game {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+        #gameCanvas {
+            border: 2px solid #000; /* Adiciona uma borda ao tabuleiro */
+        }
+        h1 {
+            font-size: 48px;
+            color: #ff4500; /* Laranja brilhante */
+            text-shadow: 2px 2px #000; /* Sombra preta */
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 24px;
+            color: #ffd700; /* Dourado */
+            text-shadow: 1px 1px #000; /* Sombra preta */
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 20px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4caf50; /* Verde */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra */
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049; /* Verde mais escuro */
+        }
+        #gameControls {
+            margin-top: 20px;
+            display: none;
+        }
+        #turnIndicator {
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 2px 2px #000;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <canvas id="tabuleiroJogo"></canvas>
-    <script src="jogo.js"></script>
+    <div id="menu">
+        <h1>Guerra de Dados</h1>
+        <h2>Trabalho de Projeto de Software 2024.1</h2>
+        <h3>Escolha o número de jogadores</h3>
+        <button onclick="iniciarJogo(2)">2 Jogadores</button>
+        <button onclick="iniciarJogo(3)">3 Jogadores</button>
+        <button onclick="iniciarJogo(4)">4 Jogadores</button>
+    </div>
+    <div id="game">
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+        <div id="turnIndicator">Turno: Jogador 1</div>
+        <div id="gameControls">
+            <button onclick="finalizarTurno()">Finalizar Turno</button>
+        </div>
+    </div>
     <script src="main.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
