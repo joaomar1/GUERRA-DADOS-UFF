@@ -1,14 +1,15 @@
 let canvas = document.getElementById("gameCanvas");
 let ctx = canvas.getContext("2d");
 
-canvas.width = 600; // Define uma largura fixa para o tabuleiro
-canvas.height = 600; // Define uma altura fixa para o tabuleiro
+canvas.width = 600;
+canvas.height = 600;
 
 const tamanhoQuadrado = 60;
 
-const somSelecao = new Audio("sounds/select.wav");
-const somAtaque = new Audio("sounds/attack.wav");
-const somVitoria = new Audio("sounds/victory.wav");
+// Sons do jogo
+const somSelecao = new Audio("sound/select.wav");
+const somAtaque = new Audio("sound/attack.wav");
+const somVitoria = new Audio("sound/victory.wav");
 
 function tocarSom(som) {
     som.currentTime = 0;
@@ -18,6 +19,7 @@ function tocarSom(som) {
 let jogo;
 
 function iniciarJogo(numJogadores) {
+    // Esconde o menu e mostra a interface do jogo
     document.getElementById("menu").style.display = "none";
     document.getElementById("game").style.display = "flex";
     document.getElementById("gameControls").style.display = "block";
@@ -50,17 +52,19 @@ function desenharIndicadorTurno() {
 function desenharMapa() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     desenharIndicadorTurno();
-    jogo.areas.forEach((area, indice) => {
+    jogo.tabuleiro.areas.forEach((area, indice) => {
         const linha = Math.floor(indice / 5);
         const coluna = indice % 5;
         const x = coluna * tamanhoQuadrado + 50;
         const y = linha * tamanhoQuadrado + 50;
         const cor = area.dono === 0 ? "lightblue" : area.dono === 1 ? "lightcoral" : area.dono === 2 ? "lightgreen" : "lightyellow";
         const selecionado = (indice === jogo.selecionadoOrigem || indice === jogo.selecionadoDestino);
-        desenharQuadrado(x, y, cor, `${area.dados} (J${area.dono + 1})`, selecionado);
+        const quantidadeDados = area.dados.length;
+        desenharQuadrado(x, y, cor, `${quantidadeDados} (J${area.dono + 1})`, selecionado);
     });
 }
 
+// Gerencia os cliques no tabuleiro
 canvas.addEventListener("click", (evento) => {
     const rect = canvas.getBoundingClientRect();
     const x = evento.clientX - rect.left;
@@ -69,19 +73,18 @@ canvas.addEventListener("click", (evento) => {
     const linha = Math.floor((y - 50) / tamanhoQuadrado);
     const indice = linha * 5 + coluna;
 
-    if (indice >= 0 && indice < jogo.areas.length) {
+    if (indice >= 0 && indice < jogo.tabuleiro.areas.length) {
         if (jogo.selecionadoOrigem === null) {
-            if (jogo.areas[indice].dono === jogo.jogadorAtual) {
+            if (jogo.tabuleiro.areas[indice].dono === jogo.jogadorAtual) {
                 jogo.selecionadoOrigem = indice;
                 tocarSom(somSelecao);
             }
         } else {
-            // Verifica se o território clicado já está selecionado como origem para desmarcar
             if (jogo.selecionadoOrigem === indice) {
                 jogo.selecionadoOrigem = null;
-                tocarSom(somSelecao); // Você pode optar por usar um som diferente para a desseleção
+                tocarSom(somSelecao);
             } else if (jogo.selecionadoDestino === null) {
-                if (jogo.areas[indice].dono !== jogo.jogadorAtual && jogo.adjacencias[jogo.selecionadoOrigem].includes(indice)) {
+                if (jogo.tabuleiro.areas[indice].dono !== jogo.jogadorAtual && jogo.tabuleiro.adjacencias[jogo.selecionadoOrigem].includes(indice)) {
                     jogo.selecionadoDestino = indice;
                     tocarSom(somSelecao);
                     jogo.ataque();
@@ -92,14 +95,36 @@ canvas.addEventListener("click", (evento) => {
     }
 });
 
+// Finaliza o turno do jogador atual
 function finalizarTurno() {
     jogo.finalizarTurno();
     desenharIndicadorTurno();
 }
 
+// Declara o outro jogador como vencedor se o jogador atual desistir
+function desistir() {
+    const jogadorDesistente = jogo.jogadorAtual;
+    const jogadorVencedor = (jogadorDesistente + 1) % jogo.numJogadores;
+
+    alert(`Jogador ${jogadorVencedor + 1} venceu!`);
+    tocarSom(somVitoria);
+    setTimeout(() => {
+        jogo.reiniciarJogo();
+    }, 100);
+}
+
+// Retorna ao menu principal
+function voltarParaMenu() {
+    document.getElementById("menu").style.display = "flex";
+    document.getElementById("game").style.display = "none";
+    document.getElementById("gameControls").style.display = "none";
+    document.getElementById("turnIndicator").style.display = "none";
+}
+
+// Mostra a quantidade de dados de cada jogador
 function mostrarDadosJogadores() {
-    const dadosJogador1 = jogo.areas.filter(area => area.dono === 0).reduce((acc, area) => acc + area.dados, 0);
-    const dadosJogador2 = jogo.areas.filter(area => area.dono === 1).reduce((acc, area) => acc + area.dados, 0);
+    const dadosJogador1 = jogo.tabuleiro.areas.filter(area => area.dono === 0).reduce((acc, area) => acc + area.dados.length, 0);
+    const dadosJogador2 = jogo.tabuleiro.areas.filter(area => area.dono === 1).reduce((acc, area) => acc + area.dados.length, 0);
     const dadosTexto = `Jogador 1: ${dadosJogador1} dados, Jogador 2: ${dadosJogador2} dados`;
 
     const dadosDiv = document.createElement("div");
@@ -112,7 +137,8 @@ function mostrarDadosJogadores() {
     dadosDiv.style.textShadow = "2px 2px #000";
     document.body.appendChild(dadosDiv);
 
+    // Define o tempo necessário de exibição do resultado do ataque em caso de vitória do atacante
     setTimeout(() => {
         document.body.removeChild(dadosDiv);
-    }, 1000); // Remove a exibição após 5 segundos
+    }, 1000);
 }
