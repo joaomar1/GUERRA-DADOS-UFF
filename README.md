@@ -1,8 +1,5 @@
-# GUERRA-DADOS-UFF
-Repositório criado para criação do jogo Guerra de Dados referente a matéria Projeto de Software da UFF - 2024.1
-
-# SISTEMA-CARONA-UFF ![UFF](https://www.uff.br/sites/default/files/imagens-das-paginas/logo-uff-branco-site_0.png)
-<p><strong>Trabalho de Projeto de Software - UFF</strong></p>
+# GUERRA-DADOS-UFF ![UFF](https://www.uff.br/sites/default/files/imagens-das-paginas/logo-uff-branco-site_0.png)
+<p><strong>Repositório criado para criação do jogo Guerra de Dados referente a matéria Projeto de Software da UFF - 2024.1</strong></p>
 
 <p><strong>Grupo:</strong></p>
 <ul>
