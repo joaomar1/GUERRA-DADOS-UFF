@@ -31,7 +31,7 @@ function iniciarJogo(numJogadores) {
     jogo = new Jogo(numJogadores);
     desenharMapa();
 }
-
+// Cria o quadrado do tabuleiro-canvas
 function desenharQuadrado(x, y, cor, texto, selecionado = false) {
     ctx.fillStyle = cor;
     ctx.fillRect(x, y, tamanhoQuadrado, tamanhoQuadrado);
