@@ -3,7 +3,7 @@ class Tabuleiro {
     constructor(numLinhas, numColunas, numJogadores) {
         this.numLinhas = numLinhas;
         this.numColunas = numColunas;
-        this.areas = Area.criarAreas(numLinhas * numColunas, numJogadores); // Criação das "Áreas" do tabuleiro
+        this.areas = Area.criarAreas(numLinhas * numColunas * 2, numJogadores); // Criação das "Áreas" do tabuleiro
         this.adjacencias = this.criarAdjacencias(); // Criação dos vizinhos de cada "Área"
     }
     // Criação de uma matriz para determinar quais áreas são vizinhas entre si

@@ -1,10 +1,14 @@
 let canvas = document.getElementById("gameCanvas");
 let ctx = canvas.getContext("2d");
 
-canvas.width = 600;
-canvas.height = 600;
+// define o tamanho de cada territorio, quantidade de linhas e colunas do tabuleiro
+const tamanhoQuadrado = 80;
+const numColunas = 5;
+const numLinhas = 6;
 
-const tamanhoQuadrado = 60;
+// Ajuste do tamanho do canvas para incluir as bordas ao redor do tabuleiro
+canvas.width = tamanhoQuadrado * numColunas + 100;
+canvas.height = tamanhoQuadrado * numLinhas + 100;
 
 // Sons do jogo
 const somSelecao = new Audio("sound/select.wav");
@@ -52,11 +56,13 @@ function desenharIndicadorTurno() {
 function desenharMapa() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     desenharIndicadorTurno();
+    const offsetX = (canvas.width - numColunas * tamanhoQuadrado) / 2;
+    const offsetY = (canvas.height - numLinhas * tamanhoQuadrado) / 2;
     jogo.tabuleiro.areas.forEach((area, indice) => {
-        const linha = Math.floor(indice / 5);
-        const coluna = indice % 5;
-        const x = coluna * tamanhoQuadrado + 50;
-        const y = linha * tamanhoQuadrado + 50;
+        const linha = Math.floor(indice / numColunas);
+        const coluna = indice % numColunas;
+        const x = coluna * tamanhoQuadrado + offsetX;
+        const y = linha * tamanhoQuadrado + offsetY;
         const cor = area.dono === 0 ? "lightblue" : area.dono === 1 ? "lightcoral" : area.dono === 2 ? "lightgreen" : "lightyellow";
         const selecionado = (indice === jogo.selecionadoOrigem || indice === jogo.selecionadoDestino);
         const quantidadeDados = area.dados.length;
@@ -69,9 +75,11 @@ canvas.addEventListener("click", (evento) => {
     const rect = canvas.getBoundingClientRect();
     const x = evento.clientX - rect.left;
     const y = evento.clientY - rect.top;
-    const coluna = Math.floor((x - 50) / tamanhoQuadrado);
-    const linha = Math.floor((y - 50) / tamanhoQuadrado);
-    const indice = linha * 5 + coluna;
+    const offsetX = (canvas.width - numColunas * tamanhoQuadrado) / 2;
+    const offsetY = (canvas.height - numLinhas * tamanhoQuadrado) / 2;
+    const coluna = Math.floor((x - offsetX) / tamanhoQuadrado);
+    const linha = Math.floor((y - offsetY) / tamanhoQuadrado);
+    const indice = linha * numColunas + coluna;
 
     if (indice >= 0 && indice < jogo.tabuleiro.areas.length) {
         if (jogo.selecionadoOrigem === null) {

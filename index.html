@@ -4,81 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guerra de Dados</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-image: url('image/background.jpeg'); /* Certifique-se de ter uma imagem de fundo chamada 'background.jpeg' */
-            background-size: cover;
-            background-position: center;
-        }
-        #menu {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente para o menu */
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        #game {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            display: none;
-        }
-        #gameCanvas {
-            border: 2px solid #000; /* Adiciona uma borda ao tabuleiro */
-        }
-        h1 {
-            font-size: 48px;
-            color: #ff4500; /* Laranja brilhante */
-            text-shadow: 2px 2px #000; /* Sombra preta */
-            margin-bottom: 10px;
-        }
-        h2 {
-            font-size: 24px;
-            color: #ffd700; /* Dourado */
-            text-shadow: 1px 1px #000; /* Sombra preta */
-            margin-bottom: 20px;
-        }
-        h3 {
-            font-size: 20px;
-            color: #000;
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4caf50; /* Verde */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra */
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #45a049; /* Verde mais escuro */
-        }
-        #gameControls {
-            margin-top: 20px;
-            display: none;
-        }
-        #turnIndicator {
-            font-size: 24px;
-            color: #fff;
-            text-shadow: 2px 2px #000;
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="menu">
@@ -89,8 +15,10 @@
         <button onclick="iniciarJogo(3)">3 Jogadores</button>
         <button onclick="iniciarJogo(4)">4 Jogadores</button>
     </div>
-    <div id="game">
-        <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <div id="game"> <!--Criado como game para evitar conflitos com o nome da classe-->
+        <div id="gameContainer"> <!--Container para criação da borda do tabuleiro-->
+            <canvas id="gameCanvas" width="600" height="600"></canvas>
+        </div>
         <div id="turnIndicator">Turno: Jogador 1</div>
         <div id="gameControls">
             <button onclick="finalizarTurno()">Finalizar Turno</button>
