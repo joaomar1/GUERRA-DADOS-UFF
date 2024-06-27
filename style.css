@@ -29,6 +29,10 @@ body {
     justify-content: center;
     display: none;
     position: relative;
+    background: url('image/background.jpeg') no-repeat center center fixed; /* Imagem de fundo */
+    background-size: cover; /* Cobrir toda a área */
+    width: 100%;
+    height: 100vh; /* Altura total da tela */
 }
 
 #gameContainer {
