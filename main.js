@@ -109,18 +109,6 @@ function finalizarTurno() {
     desenharIndicadorTurno();
 }
 
-// Declara o outro jogador como vencedor se o jogador atual desistir
-function desistir() {
-    const jogadorDesistente = jogo.jogadorAtual;
-    const jogadorVencedor = (jogadorDesistente + 1) % jogo.numJogadores;
-
-    alert(`Jogador ${jogadorVencedor + 1} venceu!`);
-    tocarSom(somVitoria);
-    setTimeout(() => {
-        jogo.reiniciarJogo();
-    }, 100);
-}
-
 // Retorna ao menu principal
 function voltarParaMenu() {
     document.getElementById("menu").style.display = "flex";
