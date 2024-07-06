@@ -28,9 +28,10 @@ function iniciarJogo(numJogadores) {
     document.getElementById("game").style.display = "flex";
     document.getElementById("gameControls").style.display = "block";
     document.getElementById("turnIndicator").style.display = "block";
-    jogo = new Jogo(numJogadores);
+    jogo = Jogo.getInstance(numJogadores); // Metodo da classe jogo referente ao Padrão GOF Singleton
     desenharMapa();
 }
+
 // Cria o quadrado do tabuleiro-canvas
 function desenharQuadrado(x, y, cor, texto, selecionado = false) {
     ctx.fillStyle = cor;
@@ -45,7 +46,13 @@ function desenharQuadrado(x, y, cor, texto, selecionado = false) {
     ctx.strokeRect(x, y, tamanhoQuadrado, tamanhoQuadrado);
     ctx.fillStyle = "#000";
     ctx.font = "12px Arial";
-    ctx.fillText(texto, x + 10, y + tamanhoQuadrado / 2 + 5);
+
+    // Centraliza o texto horizontalmente e verticalmente
+    const textMetrics = ctx.measureText(texto);
+    const textX = x + (tamanhoQuadrado - textMetrics.width) / 2;
+    const textY = y + (tamanhoQuadrado / 2) + 5;
+
+    ctx.fillText(texto, textX, textY);
 }
 
 function desenharIndicadorTurno() {
