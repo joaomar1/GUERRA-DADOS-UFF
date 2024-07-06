@@ -1,11 +1,12 @@
-// Referente a múltiplas instâncias de classe
 class Tabuleiro {
     constructor(numLinhas, numColunas, numJogadores) {
         this.numLinhas = numLinhas;
         this.numColunas = numColunas;
+        this.numJogadores = numJogadores;
         this.areas = Area.criarAreas(numLinhas * numColunas, numJogadores); // Criação das "Áreas" do tabuleiro
         this.adjacencias = this.criarAdjacencias(); // Criação dos vizinhos de cada "Área"
     }
+
     // Criação de uma matriz para determinar quais áreas são vizinhas entre si
     criarAdjacencias() {
         const adjacencias = Array(this.numLinhas * this.numColunas).fill().map(() => []);
@@ -19,5 +20,17 @@ class Tabuleiro {
             }
         }
         return adjacencias;
+    }
+    //Padrão Singleton na classe tabuleiro
+    static getInstance(numLinhas, numColunas, numJogadores) {
+        // Verifica se a instância não existe ou se o número de jogadores é diferente do existente
+        if (!Tabuleiro.instance || Tabuleiro.instance.numJogadores !== numJogadores) {
+            Tabuleiro.instance = new Tabuleiro(numLinhas, numColunas, numJogadores); // Criação da nova instância com os parâmetros fornecidos
+        }
+        return Tabuleiro.instance;
+    }
+    // Metodo estático para redefinir o Singleton
+    static resetInstance() {
+        Tabuleiro.instance = null;
     }
 }

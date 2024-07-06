@@ -1,12 +1,19 @@
 class Jogo {
     constructor(numJogadores) {
-        this.numJogadores = numJogadores;
-        this.tabuleiro = new Tabuleiro(6, 5, numJogadores);
+        if (Jogo.instance && Jogo.instance.numJogadores === numJogadores) {
+            return Jogo.instance;
+        }
+
+        this.numJogadores = numJogadores; // Define o número de jogadores
+        Tabuleiro.resetInstance(); // Reinicia a instância de tabuleiro
+        this.tabuleiro = Tabuleiro.getInstance(6, 5, numJogadores); // Busca a instância de tabuleiro e cria o mesmo
         this.jogadores = Array(numJogadores).fill().map((_, i) => new Jogador(i));
         this.jogadorAtual = 0;
         this.jogadoresEliminados = new Set();
         this.selecionadoOrigem = null;
         this.selecionadoDestino = null;
+
+        Jogo.instance = this; //Guarda a atual instância do jogo
     }
 
     // Regras de ataque entre as "Áreas" selecionadas pelo jogador
@@ -82,7 +89,7 @@ class Jogo {
         this.selecionadoOrigem = null;
         this.selecionadoDestino = null;
 
-        // Verificar se o jogador atual foi eliminado
+        // Verificar se o jogador atual não tem mais territorios
         this.verificarEliminacao(jogadorAtual.id);
 
         // Mudar para o próximo jogador que não esteja eliminado
@@ -104,7 +111,8 @@ class Jogo {
 
     // Reinicia o jogo
     reiniciarJogo() {
-        this.tabuleiro = new Tabuleiro(6, 5, this.numJogadores);
+        Tabuleiro.resetInstance();
+        this.tabuleiro = Tabuleiro.getInstance(6, 5, this.numJogadores);
         this.jogadorAtual = 0;
         this.jogadoresEliminados.clear();
         this.selecionadoOrigem = null;
@@ -117,5 +125,12 @@ class Jogo {
     verificarVitoria() {
         const donos = this.tabuleiro.areas.map(area => area.dono);
         return new Set(donos).size === 1;
+    }
+    //Inclusão do Padrão GOF - Singleton
+    static getInstance(numJogadores) {
+        if (!Jogo.instance || Jogo.instance.numJogadores !== numJogadores) {
+            Jogo.instance = new Jogo(numJogadores);
+        }
+        return Jogo.instance; // Retorno do padrão Singleton
     }
 }
